@@ -81,7 +81,34 @@ class CommandSystem {
   }
 }
 
-world.beforeEvents.chatSend.subscribe((ev) => {
+system.afterEvents.scriptEventReceive.subscribe((event) => {
+  const {
+    id, // returns string (wiki:test)
+    initiator, // returns Entity (or undefined if an NPC did not fire the command)
+    message, // returns string (Hello World)
+    sourceBlock, // returns Block (or undefined if a block did not fire the command)
+    sourceEntity, // returns Entity (or undefined if an entity did not fire the command)
+    sourceType, // returns MessageSourceType (can be 'Block', 'Entity', 'NPCDialogue', or 'Server')
+  } = event;
+
+  // `/scriptevent voicecraft:voice help` -> !help
+
+  if (id.toLowerCase() === 'voicecraft:voice') {
+    let source = sourceEntity ?? initiator;
+    if (sourceType == 'Server' || source === undefined)  {
+      source = {
+        isOp: () => true,
+        sendMessage: function(message) {
+          console.log(message);
+        }
+      }
+    }
+    CommandSystem.executeCommand(CommandSystem.Prefix + message, source, event);
+  }
+});
+
+// No longer using this, but if beta api's are enabled, it will still work
+world?.beforeEvents?.chatSend?.subscribe?.((ev) => {
   CommandSystem.executeCommand(ev.message, ev.sender, ev);
 });
 

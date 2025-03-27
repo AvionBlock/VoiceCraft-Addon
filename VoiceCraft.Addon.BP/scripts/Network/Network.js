@@ -35,7 +35,7 @@ import {
   VoiceCraftPlayer,
 } from "./MCCommAPI";
 import { NetworkRunner } from "./NetworkRunner";
-import { world, Player } from "@minecraft/server";
+import { world, Player, system } from "@minecraft/server";
 
 class Network {
   static Version = "1.0.0";
@@ -64,7 +64,7 @@ class Network {
         const key = ev.player.getDynamicProperty("VCAutoBind");
         if (key != null) {
           player.sendMessage(`§2Autobinding Enabled. §eBinding to key: ${key}`);
-          this.BindPlayer(key, player)
+          this.Bind(key, player)
             .then(() => {
               player.sendMessage("§aBinding Successful!");
             })
@@ -81,7 +81,7 @@ class Network {
       }
     });
 
-    world.afterEvents.worldInitialize.subscribe((ev) => {
+    system.run(() => {
       if (world.getDynamicProperty("autoConnectOnStart")) {
         console.warn("Auto connection enabled, Connecting to server...");
         this.AutoConnect()
