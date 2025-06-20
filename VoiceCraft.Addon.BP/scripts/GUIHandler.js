@@ -148,9 +148,9 @@ class GUIHandler {
       .then((res) => {
         new ModalFormData()
           .title("External Server Settings")
-          .slider("Proximity Distance", 1, 60, 1, res.ProximityDistance)
-          .toggle("Proximity Enabled", res.ProximityToggle)
-          .toggle("Voice Effects", res.VoiceEffects)
+          .slider("Proximity Distance", 1, 60, { defaultValue: res.ProximityDistance })
+          .toggle("Proximity Enabled", { defaultValue: res.ProximityToggle })
+          .toggle("Voice Effects", { defaultValue: res.VoiceEffects })
           .show(player)
           .then((response) => {
             if (response.canceled) return;
@@ -184,19 +184,19 @@ class GUIHandler {
       .title("Internal Server Settings")
       .toggle(
         "Broadcast Participant Bind's",
-        world.getDynamicProperty("sendBindedMessage")
+        { defaultValue: world.getDynamicProperty("sendBindedMessage") }
       )
       .toggle(
         "Broadcast VOIP Disconnection",
-        world.getDynamicProperty("broadcastVoipDisconnection")
+        { defaultValue: world.getDynamicProperty("broadcastVoipDisconnection") }
       )
       .toggle(
         "Auto Reconnect",
-        world.getDynamicProperty("autoReconnect")
+        { defaultValue: world.getDynamicProperty("autoReconnect") }
       )
       .toggle(
         "AutoConnect On Start",
-        world.getDynamicProperty("autoConnectOnStart")
+        { defaultValue: world.getDynamicProperty("autoConnectOnStart") }
       )
       .show(player)
       .then((results) => {
@@ -224,9 +224,9 @@ class GUIHandler {
 
     new ModalFormData()
       .title("Auto Connect Settings")
-      .textField("IP Address", "127.0.0.1", IP)
-      .textField("Port", "9050", Port ? Port.toString() : "")
-      .textField("Server Key", "abc123", ServerKey)
+      .textField("IP Address", "127.0.0.1", { defaultValue: IP })
+      .textField("Port", "9050", { defaultValue: Port ? Port.toString() : "" })
+      .textField("Server Key", "abc123", { defaultValue: ServerKey })
       .show(player)
       .then((results) => {
         if (results.canceled) return;
@@ -301,9 +301,9 @@ class GUIHandler {
       .then((res) => {
         const page = new ModalFormData()
           .title(`${channel.Name} Settings`)
-          .slider("Proximity Distance", 1, 60, 1, res.ProximityDistance)
-          .toggle("Proximity Enabled", res.ProximityToggle)
-          .toggle("Voice Effects", res.VoiceEffects)
+          .slider("Proximity Distance", 1, 60, { defaultValue: res.ProximityDistance })
+          .toggle("Proximity Enabled", { defaultValue: res.ProximityToggle })
+          .toggle("Voice Effects", { defaultValue: res.VoiceEffects })
           .toggle("Clear Settings");
 
         page.show(player).then((result) => {
@@ -477,31 +477,39 @@ class GUIHandler {
       .then((res) => {
         const page = new ModalFormData()
           .title(`${selectedPlayer.name} Bitmask1 Settings`)
-          .toggle("Talk Enabled", (res & BitmaskMap.TalkBitmask1) != 0)
-          .toggle("Listen Enabled", (res & BitmaskMap.ListenBitmask1) != 0)
+          .toggle("Talk Enabled", { defaultValue: (res & BitmaskMap.TalkBitmask1) != 0 })
+          .toggle("Listen Enabled", { defaultValue: (res & BitmaskMap.ListenBitmask1) != 0 })
           .toggle(
             "Proximity Disabled",
-            ((res >> BitmaskLocations.Bitmask1Settings) &
-              BitmaskSettings.ProximityDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask1Settings) &
+                BitmaskSettings.ProximityDisabled) !=
+                0
+            }
           )
           .toggle(
             "Death Disabled",
-            ((res >> BitmaskLocations.Bitmask1Settings) &
-              BitmaskSettings.DeathDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask1Settings) &
+                BitmaskSettings.DeathDisabled) !=
+                0
+            }
           )
           .toggle(
             "VoiceEffects Disabled",
-            ((res >> BitmaskLocations.Bitmask1Settings) &
-              BitmaskSettings.VoiceEffectsDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask1Settings) &
+                BitmaskSettings.VoiceEffectsDisabled) !=
+                0
+            }
           )
           .toggle(
             "Environment Disabled",
-            ((res >> BitmaskLocations.Bitmask1Settings) &
-              BitmaskSettings.EnvironmentDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask1Settings) &
+                BitmaskSettings.EnvironmentDisabled) !=
+                0
+            }
           );
 
         page.show(player).then((result) => {
@@ -550,31 +558,39 @@ class GUIHandler {
       .then((res) => {
         const page = new ModalFormData()
           .title(`${selectedPlayer.name} Bitmask2 Settings`)
-          .toggle("Talk Enabled", (res & BitmaskMap.TalkBitmask2) != 0)
-          .toggle("Listen Enabled", (res & BitmaskMap.ListenBitmask2) != 0)
+          .toggle("Talk Enabled", { defaultValue: (res & BitmaskMap.TalkBitmask2) != 0 })
+          .toggle("Listen Enabled", { defaultValue: (res & BitmaskMap.ListenBitmask2) != 0 })
           .toggle(
             "Proximity Disabled",
-            ((res >> BitmaskLocations.Bitmask2Settings) &
-              BitmaskSettings.ProximityDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask2Settings) &
+                BitmaskSettings.ProximityDisabled) !=
+                0
+            }
           )
           .toggle(
             "Death Disabled",
-            ((res >> BitmaskLocations.Bitmask2Settings) &
-              BitmaskSettings.DeathDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask2Settings) &
+                BitmaskSettings.DeathDisabled) !=
+                0
+            }
           )
           .toggle(
             "VoiceEffects Disabled",
-            ((res >> BitmaskLocations.Bitmask2Settings) &
-              BitmaskSettings.VoiceEffectsDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask2Settings) &
+                BitmaskSettings.VoiceEffectsDisabled) !=
+                0
+            }
           )
           .toggle(
             "Environment Disabled",
-            ((res >> BitmaskLocations.Bitmask2Settings) &
-              BitmaskSettings.EnvironmentDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask2Settings) &
+                BitmaskSettings.EnvironmentDisabled) !=
+                0
+            }
           );
 
         page.show(player).then((result) => {
@@ -623,31 +639,39 @@ class GUIHandler {
       .then((res) => {
         const page = new ModalFormData()
           .title(`${selectedPlayer.name} Bitmask3 Settings`)
-          .toggle("Talk Enabled", (res & BitmaskMap.TalkBitmask3) != 0)
-          .toggle("Listen Enabled", (res & BitmaskMap.ListenBitmask3) != 0)
+          .toggle("Talk Enabled", { defaultValue: (res & BitmaskMap.TalkBitmask3) != 0 })
+          .toggle("Listen Enabled", { defaultValue: (res & BitmaskMap.ListenBitmask3) != 0 })
           .toggle(
             "Proximity Disabled",
-            ((res >> BitmaskLocations.Bitmask3Settings) &
-              BitmaskSettings.ProximityDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask3Settings) &
+                BitmaskSettings.ProximityDisabled) !=
+                0
+            }
           )
           .toggle(
             "Death Disabled",
-            ((res >> BitmaskLocations.Bitmask3Settings) &
-              BitmaskSettings.DeathDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask3Settings) &
+                BitmaskSettings.DeathDisabled) !=
+                0
+            }
           )
           .toggle(
             "VoiceEffects Disabled",
-            ((res >> BitmaskLocations.Bitmask3Settings) &
-              BitmaskSettings.VoiceEffectsDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask3Settings) &
+                BitmaskSettings.VoiceEffectsDisabled) !=
+                0
+            }
           )
           .toggle(
             "Environment Disabled",
-            ((res >> BitmaskLocations.Bitmask3Settings) &
-              BitmaskSettings.EnvironmentDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask3Settings) &
+                BitmaskSettings.EnvironmentDisabled) !=
+                0
+            }
           );
 
         page.show(player).then((result) => {
@@ -696,31 +720,39 @@ class GUIHandler {
       .then((res) => {
         const page = new ModalFormData()
           .title(`${selectedPlayer.name} Bitmask4 Settings`)
-          .toggle("Talk Enabled", (res & BitmaskMap.TalkBitmask4) != 0)
-          .toggle("Listen Enabled", (res & BitmaskMap.ListenBitmask4) != 0)
+          .toggle("Talk Enabled", { defaultValue: (res & BitmaskMap.TalkBitmask4) != 0 })
+          .toggle("Listen Enabled", { defaultValue: (res & BitmaskMap.ListenBitmask4) != 0 })
           .toggle(
             "Proximity Disabled",
-            ((res >> BitmaskLocations.Bitmask4Settings) &
-              BitmaskSettings.ProximityDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask4Settings) &
+                BitmaskSettings.ProximityDisabled) !=
+                0
+            }
           )
           .toggle(
             "Death Disabled",
-            ((res >> BitmaskLocations.Bitmask4Settings) &
-              BitmaskSettings.DeathDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask4Settings) &
+                BitmaskSettings.DeathDisabled) !=
+                0
+            }
           )
           .toggle(
             "VoiceEffects Disabled",
-            ((res >> BitmaskLocations.Bitmask4Settings) &
-              BitmaskSettings.VoiceEffectsDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask4Settings) &
+                BitmaskSettings.VoiceEffectsDisabled) !=
+                0
+            }
           )
           .toggle(
             "Environment Disabled",
-            ((res >> BitmaskLocations.Bitmask4Settings) &
-              BitmaskSettings.EnvironmentDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask4Settings) &
+                BitmaskSettings.EnvironmentDisabled) !=
+                0
+            }
           );
 
         page.show(player).then((result) => {
@@ -769,31 +801,39 @@ class GUIHandler {
       .then((res) => {
         const page = new ModalFormData()
           .title(`${selectedPlayer.name} Bitmask5 Settings`)
-          .toggle("Talk Enabled", (res & BitmaskMap.TalkBitmask5) != 0)
-          .toggle("Listen Enabled", (res & BitmaskMap.ListenBitmask5) != 0)
+          .toggle("Talk Enabled", { defaultValue: (res & BitmaskMap.TalkBitmask5) != 0 })
+          .toggle("Listen Enabled", { defaultValue: (res & BitmaskMap.ListenBitmask5) != 0 })
           .toggle(
             "Proximity Disabled",
-            ((res >> BitmaskLocations.Bitmask5Settings) &
-              BitmaskSettings.ProximityDisabled) !=
-              0
+            { defaultValue:
+              ((res >> BitmaskLocations.Bitmask5Settings) &
+                BitmaskSettings.ProximityDisabled) !=
+                0
+            }
           )
           .toggle(
             "Death Disabled",
-            ((res >> BitmaskLocations.Bitmask5Settings) &
-              BitmaskSettings.DeathDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask5Settings) &
+                BitmaskSettings.DeathDisabled) !=
+                0
+            }
           )
           .toggle(
             "VoiceEffects Disabled",
-            ((res >> BitmaskLocations.Bitmask5Settings) &
-              BitmaskSettings.VoiceEffectsDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask5Settings) &
+                BitmaskSettings.VoiceEffectsDisabled) !=
+                0
+            }
           )
           .toggle(
             "Environment Disabled",
-            ((res >> BitmaskLocations.Bitmask5Settings) &
-              BitmaskSettings.EnvironmentDisabled) !=
-              0
+            { defaultValue: 
+              ((res >> BitmaskLocations.Bitmask5Settings) &
+                BitmaskSettings.EnvironmentDisabled) !=
+                0
+            }
           );
 
         page.show(player).then((result) => {
